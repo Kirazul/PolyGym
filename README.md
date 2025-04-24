@@ -54,23 +54,29 @@ L'application gère trois tables principales avec relations:
 
 2. Configurer la base de données:
    - Créer une base de données MySQL
-   - Importer le fichier SQL `database/db_setup.sql`
-   - Configurer le fichier de connexion dans `config/database.php`
+   - Importer le fichier SQL `database.sql`
+   - Configurer le fichier de connexion dans `includes/config.php`
 
 3. Déployer sur un serveur PHP (XAMPP, WAMP, etc.)
 
 4. Accéder à l'application via: `http://localhost/PolyGym`
 
-## Structure des fichiers (à implémenter)
+## Structure des fichiers
 
 ```
 PolyGym/
-├── config/              # Configuration de la base de données
-├── database/            # Scripts SQL pour la création de la BDD
-├── includes/            # Classes et fonctions PHP réutilisables
-├── public/              # Assets publics (CSS, JS, images)
-├── views/               # Templates et pages de l'interface
-├── index.php            # Point d'entrée de l'application
+├── assets/              # Images et ressources
+├── css/                 # Feuilles de style CSS
+├── includes/            # Fonctions PHP réutilisables
+│   ├── auth.php         # Gestion de l'authentification
+│   └── config.php       # Configuration BDD
+├── database.sql         # Script d'initialisation de la BDD
+├── index.php            # Page d'accueil
+├── login.php            # Page de connexion
+├── register.php         # Page d'inscription
+├── dashboard.php        # Tableau de bord administrateur
+├── payment.php          # Gestion des paiements
+├── plans.php            # Affichage des forfaits disponibles
 ├── README.md            # Documentation du projet
 └── .env.example         # Variables d'environnement d'exemple
 ```
@@ -90,16 +96,6 @@ PolyGym/
 - [x] Authentification utilisateur
 - [x] Requêtes SQL avancées
 - [x] Interface avec Bootstrap
-
-### État actuel du projet:
-⚠️ **Note importante**: Ce dépôt contient actuellement uniquement les fichiers de documentation et de configuration. Les fichiers PHP et la structure du projet doivent encore être ajoutés.
-
-## Prochaines étapes
-1. Ajouter les fichiers PHP principaux
-2. Créer les scripts SQL pour l'initialisation de la base de données
-3. Implémenter l'authentification
-4. Développer les interfaces utilisateur
-5. Ajouter des fonctionnalités avancées (rapports, statistiques)
 
 ---
 
