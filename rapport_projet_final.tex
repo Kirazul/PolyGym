@@ -1,0 +1,1289 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usepackage{float}
+\usepackage{enumitem}
+
+% Configuration de la géométrie de la page
+\geometry{
+    a4paper,
+    top=2.5cm,
+    bottom=2.5cm,
+    left=2.5cm,
+    right=2.5cm
+}
+
+% Configuration des liens hypertexte
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+}
+
+% Configuration des listings de code
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{phpStyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    language=PHP
+}
+
+\lstdefinestyle{sqlStyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{blue},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    language=SQL
+}
+
+% Configuration des en-têtes et pieds de page
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Fitness Club - Application PHP}
+\lhead{Documentation Technique}
+\rfoot{Page \thepage}
+\lfoot{\today}
+
+\begin{document}
+
+% Page de garde
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+    {\Huge\bfseries Application web en PHP\\Gestion avec techniques CRUD\par}
+    \vspace{2cm}
+    {\large Projet : Fitness Club\par}
+    \vspace{1.5cm}
+    \includegraphics[width=0.4\textwidth]{} % Emplacement pour logo
+    \vspace{2cm}
+    {\Large\itshape [VOTRE NOM]\par}
+    \vfill
+    {\large \today\par}
+\end{titlepage}
+
+% Table des matières
+\tableofcontents
+\newpage
+
+% Introduction
+\chapter{Introduction}
+
+\section{Objectif du projet}
+Ce projet a pour objectif la création d'une application web de gestion pour un club de fitness. Cette application permet aux utilisateurs de s'inscrire, de consulter les différents plans d'abonnement disponibles, de souscrire à ces plans et de gérer leur compte via un tableau de bord personnalisé.
+
+L'application implémente l'ensemble des fonctionnalités CRUD (Create, Read, Update, Delete) pour offrir une gestion complète des données utilisateurs, des abonnements et des paiements.
+
+\section{Présentation des techniques CRUD}
+Les techniques CRUD constituent la base de toute application de gestion de données et représentent les quatre opérations fondamentales pour la persistance des données :
+
+\begin{itemize}
+    \item \textbf{Create (Création)} : Permet d'ajouter de nouvelles données dans le système, comme l'inscription d'un nouvel utilisateur ou la création d'un nouvel abonnement.
+    
+    \item \textbf{Read (Lecture)} : Permet de récupérer et d'afficher les données existantes, comme la consultation des informations d'un compte utilisateur ou la liste des plans disponibles.
+    
+    \item \textbf{Update (Mise à jour)} : Permet de modifier des données existantes, comme la mise à jour des informations personnelles ou le renouvellement d'un abonnement.
+    
+    \item \textbf{Delete (Suppression)} : Permet de supprimer des données du système, comme la désactivation d'un compte utilisateur ou l'annulation d'un abonnement.
+\end{itemize}
+
+Dans ce projet, ces opérations sont implémentées via des formulaires HTML pour l'interface utilisateur et des requêtes SQL exécutées par PHP pour interagir avec la base de données.
+
+\section{Technologies utilisées}
+Le projet a été développé en utilisant les technologies suivantes :
+
+\begin{itemize}
+    \item \textbf{Frontend} :
+    \begin{itemize}
+        \item HTML5 pour la structure des pages
+        \item CSS3 pour la mise en forme et le design responsive
+        \item JavaScript pour les interactions dynamiques
+        \item Bootstrap comme framework CSS pour un design cohérent
+    \end{itemize}
+    
+    \item \textbf{Backend} :
+    \begin{itemize}
+        \item PHP 8.x pour la logique métier et le traitement des données
+        \item PDO (PHP Data Objects) pour les interactions sécurisées avec la base de données
+        \item Sessions PHP pour la gestion de l'authentification
+    \end{itemize}
+    
+    \item \textbf{Base de données} :
+    \begin{itemize}
+        \item MySQL pour le stockage persistant des données
+        \item Transactions pour garantir l'intégrité des données
+    \end{itemize}
+    
+    \item \textbf{Sécurité} :
+    \begin{itemize}
+        \item Hachage des mots de passe avec Bcrypt
+        \item Protection contre les injections SQL via les requêtes préparées
+        \item Validation et nettoyage des entrées utilisateur
+    \end{itemize}
+\end{itemize}
+
+Cette combinaison de technologies permet d'offrir une application performante, sécurisée et facile à maintenir, tout en garantissant une expérience utilisateur optimale.
+
+\chapter{Structure du projet}
+
+\section{Arborescence des fichiers}
+Le projet est organisé selon l'architecture suivante pour faciliter la maintenance et la lisibilité du code :
+
+\begin{lstlisting}[frame=single]
+/
+|-- index.php                 # Page d'accueil du site
+|-- register.php              # Formulaire d'inscription
+|-- login.php                 # Formulaire de connexion
+|-- logout.php                # Script de déconnexion
+|-- register_process.php      # Traitement de l'inscription
+|-- login_process.php         # Traitement de la connexion
+|-- dashboard.php             # Tableau de bord utilisateur
+|-- plans.php                 # Liste des plans d'abonnement
+|-- payment.php               # Interface de paiement
+|-- payment_success.php       # Confirmation de paiement
+|-- includes/                 # Dossier des fichiers inclus
+|   |-- config.php            # Configuration de la BDD
+|   |-- header.php            # En-tête commune
+|   |-- footer.php            # Pied de page commun
+|-- css/                      # Feuilles de style CSS
+|-- assets/                   # Images, icônes, etc.
+|-- database.sql              # Script de création de la BDD
+\end{lstlisting}
+
+\section{Description des fichiers principaux}
+
+\subsection{Fichiers de base}
+\begin{itemize}
+    \item \textbf{index.php} : Page d'accueil du site présentant le club de fitness et ses avantages. Point d'entrée principal de l'application.
+    
+    \item \textbf{register.php} : Contient le formulaire d'inscription permettant aux nouveaux utilisateurs de créer un compte avec leurs informations personnelles.
+    
+    \item \textbf{login.php} : Présente le formulaire de connexion pour les utilisateurs déjà inscrits.
+    
+    \item \textbf{logout.php} : Script simple qui détruit la session en cours et redirige l'utilisateur vers la page d'accueil.
+\end{itemize}
+
+\subsection{Fichiers de traitement}
+\begin{itemize}
+    \item \textbf{register\_process.php} : Traite les données soumises par le formulaire d'inscription, effectue les validations nécessaires et insère le nouvel utilisateur dans la base de données.
+    
+    \item \textbf{login\_process.php} : Vérifie les identifiants fournis par l'utilisateur, crée une session si l'authentification réussit et redirige vers le tableau de bord.
+\end{itemize}
+
+\subsection{Fichiers de fonctionnalités}
+\begin{itemize}
+    \item \textbf{dashboard.php} : Tableau de bord personnalisé affichant les informations de l'utilisateur connecté, son abonnement actuel et son historique de paiements.
+    
+    \item \textbf{plans.php} : Présente les différents plans d'abonnement disponibles avec leurs caractéristiques et tarifs.
+    
+    \item \textbf{payment.php} : Interface de paiement permettant aux utilisateurs de souscrire à un plan d'abonnement en fournissant leurs informations de paiement.
+    
+    \item \textbf{payment\_success.php} : Page de confirmation affichée après un paiement réussi, récapitulant les détails de l'abonnement souscrit.
+\end{itemize}
+
+\subsection{Dossiers}
+\begin{itemize}
+    \item \textbf{includes/} : Contient les fichiers inclus dans plusieurs pages pour éviter la duplication de code.
+    \begin{itemize}
+        \item \textbf{config.php} : Établit la connexion à la base de données et définit les constantes globales de l'application.
+        \item \textbf{header.php} : En-tête HTML commune incluant la navigation et les scripts JS/CSS essentiels.
+        \item \textbf{footer.php} : Pied de page HTML commun.
+    \end{itemize}
+    
+    \item \textbf{css/} : Contient les feuilles de style CSS pour le design du site.
+    
+    \item \textbf{assets/} : Stocke les ressources statiques comme les images, les icônes et autres fichiers médias.
+\end{itemize}
+
+\subsection{Fichier de base de données}
+\begin{itemize}
+    \item \textbf{database.sql} : Script SQL contenant les instructions de création de la base de données, des tables et des données initiales pour les plans d'abonnement.
+\end{itemize}
+
+Cette structure modulaire facilite la maintenance du code et respecte le principe de séparation des préoccupations en isolant clairement les différentes parties de l'application. 
+
+\chapter{Techniques CRUD utilisées}
+
+\section{Create (Création)}
+
+\subsection{Inscription d'un utilisateur}
+L'opération de création la plus fondamentale de l'application est l'inscription d'un nouvel utilisateur. Cette fonctionnalité est implémentée à travers le processus suivant :
+
+\begin{enumerate}
+    \item L'utilisateur remplit le formulaire dans \textbf{register.php} avec ses informations personnelles.
+    \item Les données sont envoyées à \textbf{register\_process.php} via la méthode POST.
+    \item Le script valide les données et les nettoie pour prévenir les injections.
+    \item Le mot de passe est haché avec l'algorithme Bcrypt pour garantir la sécurité.
+    \item Une requête INSERT est exécutée pour créer l'entrée dans la table \textbf{users}.
+\end{enumerate}
+
+Voici le code PHP qui gère cette insertion :
+
+\begin{lstlisting}[style=phpStyle, caption=Extrait de register\_process.php - Création d'un utilisateur]
+// Validation et nettoyage des données
+$username = htmlspecialchars($_POST['username']);
+$email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+$first_name = htmlspecialchars($_POST['first_name']);
+$last_name = htmlspecialchars($_POST['last_name']);
+$phone = preg_replace('/[^0-9]/', '', $_POST['phone']);
+
+// Hachage du mot de passe
+$hashedPassword = password_hash($_POST['password'], PASSWORD_BCRYPT, ['cost' => 12]);
+
+// Préparation et exécution de la requête
+$stmt = $pdo->prepare("
+    INSERT INTO users (username, password, email, first_name, last_name, phone, subscription_status)
+    VALUES (?, ?, ?, ?, ?, ?, 'inactive')
+");
+
+$stmt->execute([
+    $username,
+    $hashedPassword,
+    $email,
+    $first_name,
+    $last_name,
+    $phone
+]);
+
+// Récupération de l'ID généré pour la session
+$userId = $pdo->lastInsertId();
+\end{lstlisting}
+
+\subsection{Création d'un abonnement}
+Lorsqu'un utilisateur souscrit à un plan, une nouvelle entrée est créée dans la table \textbf{subscriptions} :
+
+\begin{lstlisting}[style=phpStyle, caption=Extrait de payment.php - Création d'un abonnement]
+try {
+    $pdo->beginTransaction();
+    
+    // Calcul de la date de fin d'abonnement
+    $startDate = date('Y-m-d H:i:s');
+    $endDate = date('Y-m-d H:i:s', strtotime("+{$planDuration} days"));
+    
+    // Création de l'abonnement
+    $stmt = $pdo->prepare("
+        INSERT INTO subscriptions (user_id, plan_id, start_date, end_date, status)
+        VALUES (?, ?, ?, ?, 'active')
+    ");
+    $stmt->execute([
+        $_SESSION['user_id'],
+        $planId,
+        $startDate,
+        $endDate
+    ]);
+    
+    $subscriptionId = $pdo->lastInsertId();
+    
+    // Mise à jour du statut utilisateur
+    $stmt = $pdo->prepare("
+        UPDATE users 
+        SET subscription_status = 'active',
+            subscription_end_date = ?,
+            plan_id = ?
+        WHERE id = ?
+    ");
+    $stmt->execute([
+        $endDate,
+        $planId,
+        $_SESSION['user_id']
+    ]);
+    
+    $pdo->commit();
+} catch(Exception $e) {
+    $pdo->rollBack();
+    // Gestion des erreurs
+}
+\end{lstlisting}
+
+Cette implémentation utilise une transaction pour garantir l'intégrité des données entre la création de l'abonnement et la mise à jour du statut utilisateur.
+
+\section{Read (Lecture)}
+
+\subsection{Affichage des plans d'abonnement}
+Sur la page \textbf{plans.php}, l'application récupère et affiche tous les plans disponibles :
+
+\begin{lstlisting}[style=phpStyle, caption=Extrait de plans.php - Lecture des plans]
+// Récupération de tous les plans
+$stmt = $pdo->query("SELECT * FROM plans ORDER BY price ASC");
+$plans = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Affichage dans une boucle
+foreach($plans as $plan) {
+    echo '<div class="plan-card">';
+    echo '<h3>' . htmlspecialchars($plan['name']) . '</h3>';
+    echo '<div class="price">' . number_format($plan['price'], 2) . ' €</div>';
+    echo '<div class="duration">' . $plan['duration_days'] . ' jours</div>';
+    echo '<p>' . htmlspecialchars($plan['description']) . '</p>';
+    echo '<a href="payment.php?plan=' . $plan['id'] . '" class="btn btn-primary">Souscrire</a>';
+    echo '</div>';
+}
+\end{lstlisting}
+
+\subsection{Affichage des informations utilisateur dans le tableau de bord}
+Le tableau de bord affiche les informations personnelles de l'utilisateur et son abonnement actif :
+
+\begin{lstlisting}[style=phpStyle, caption=Extrait de dashboard.php - Lecture des informations utilisateur]
+// Récupération des informations utilisateur
+$stmt = $pdo->prepare("
+    SELECT u.*, p.name as plan_name, p.description as plan_description 
+    FROM users u
+    LEFT JOIN plans p ON u.plan_id = p.id
+    WHERE u.id = ?
+");
+$stmt->execute([$_SESSION['user_id']]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Récupération des paiements de l'utilisateur
+$stmt = $pdo->prepare("
+    SELECT p.*, pl.name as plan_name
+    FROM payments p
+    JOIN plans pl ON p.plan_id = pl.id
+    WHERE p.user_id = ?
+    ORDER BY p.created_at DESC
+");
+$stmt->execute([$_SESSION['user_id']]);
+$payments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+\end{lstlisting}
+
+Cette implémentation utilise une jointure pour récupérer les informations du plan associé à l'utilisateur en une seule requête, optimisant ainsi les performances.
+
+\section{Update (Mise à jour)}
+
+\subsection{Modification du profil utilisateur}
+Les utilisateurs peuvent mettre à jour leurs informations personnelles depuis leur tableau de bord :
+
+\begin{lstlisting}[style=phpStyle, caption=Extrait de profile\_update.php - Mise à jour du profil]
+// Validation et nettoyage des données
+$email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+$first_name = htmlspecialchars($_POST['first_name']);
+$last_name = htmlspecialchars($_POST['last_name']);
+$phone = preg_replace('/[^0-9]/', '', $_POST['phone']);
+
+// Mise à jour des informations
+$stmt = $pdo->prepare("
+    UPDATE users 
+    SET email = ?, 
+        first_name = ?, 
+        last_name = ?, 
+        phone = ?,
+        updated_at = NOW()
+    WHERE id = ?
+");
+
+$stmt->execute([
+    $email,
+    $first_name,
+    $last_name,
+    $phone,
+    $_SESSION['user_id']
+]);
+
+// Vérification si l'utilisateur souhaite changer son mot de passe
+if (!empty($_POST['new_password'])) {
+    // Vérification du mot de passe actuel
+    $stmt = $pdo->prepare("SELECT password FROM users WHERE id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $user = $stmt->fetch();
+    
+    if (password_verify($_POST['current_password'], $user['password'])) {
+        // Hachage et mise à jour du nouveau mot de passe
+        $hashedPassword = password_hash($_POST['new_password'], PASSWORD_BCRYPT, ['cost' => 12]);
+        
+        $stmt = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
+        $stmt->execute([$hashedPassword, $_SESSION['user_id']]);
+    }
+}
+\end{lstlisting}
+
+\subsection{Renouvellement d'abonnement}
+Lors du renouvellement d'un abonnement, l'application met à jour la date de fin et le statut :
+
+\begin{lstlisting}[style=phpStyle, caption=Extrait de renew\_subscription.php - Renouvellement d'abonnement]
+try {
+    $pdo->beginTransaction();
+    
+    // Récupération de la durée du plan
+    $stmt = $pdo->prepare("SELECT duration_days FROM plans WHERE id = ?");
+    $stmt->execute([$planId]);
+    $plan = $stmt->fetch();
+    
+    // Mise à jour de l'abonnement
+    $stmt = $pdo->prepare("
+        UPDATE subscriptions 
+        SET end_date = DATE_ADD(end_date, INTERVAL ? DAY),
+            status = 'active'
+        WHERE user_id = ? AND id = ?
+    ");
+    $stmt->execute([
+        $plan['duration_days'],
+        $_SESSION['user_id'],
+        $subscriptionId
+    ]);
+    
+    // Mise à jour du statut utilisateur
+    $newEndDate = date('Y-m-d H:i:s', strtotime($user['subscription_end_date'] . " +{$plan['duration_days']} days"));
+    
+    $stmt = $pdo->prepare("
+        UPDATE users 
+        SET subscription_status = 'active',
+            subscription_end_date = ?
+        WHERE id = ?
+    ");
+    $stmt->execute([
+        $newEndDate,
+        $_SESSION['user_id']
+    ]);
+    
+    $pdo->commit();
+} catch(Exception $e) {
+    $pdo->rollBack();
+    // Gestion des erreurs
+}
+\end{lstlisting}
+
+Comme pour la création, l'utilisation d'une transaction garantit la cohérence des données en cas d'erreur.
+
+\section{Delete (Suppression)}
+
+\subsection{Annulation d'abonnement}
+Les utilisateurs peuvent annuler leur abonnement actif, ce qui modifie son statut sans le supprimer physiquement :
+
+\begin{lstlisting}[style=phpStyle, caption=Extrait de cancel\_subscription.php - Annulation d'abonnement]
+try {
+    // Vérification du token CSRF
+    if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+        die("Token CSRF invalide");
+    }
+    
+    $pdo->beginTransaction();
+    
+    // Mise à jour du statut de l'abonnement
+    $stmt = $pdo->prepare("
+        UPDATE subscriptions 
+        SET status = 'canceled'
+        WHERE user_id = ? AND status = 'active'
+    ");
+    $stmt->execute([$_SESSION['user_id']]);
+    
+    // Mise à jour du statut utilisateur
+    $stmt = $pdo->prepare("
+        UPDATE users 
+        SET subscription_status = 'inactive',
+            plan_id = NULL
+        WHERE id = ?
+    ");
+    $stmt->execute([$_SESSION['user_id']]);
+    
+    $pdo->commit();
+    
+    // Redirection avec message de succès
+    header("Location: dashboard.php?msg=subscription_canceled");
+    exit;
+    
+} catch(Exception $e) {
+    $pdo->rollBack();
+    // Gestion des erreurs
+}
+\end{lstlisting}
+
+Cette implémentation utilise une suppression logique (soft delete) plutôt qu'une suppression physique, ce qui permet de conserver l'historique des abonnements.
+
+\subsection{Suppression de compte utilisateur}
+L'application permet également aux utilisateurs de supprimer leur compte :
+
+\begin{lstlisting}[style=phpStyle, caption=Extrait de delete\_account.php - Suppression de compte]
+try {
+    // Vérification du token CSRF
+    if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+        die("Token CSRF invalide");
+    }
+    
+    // Vérification du mot de passe pour confirmation
+    $stmt = $pdo->prepare("SELECT password FROM users WHERE id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $user = $stmt->fetch();
+    
+    if (!password_verify($_POST['password'], $user['password'])) {
+        header("Location: account_settings.php?error=invalid_password");
+        exit;
+    }
+    
+    $pdo->beginTransaction();
+    
+    // Suppression des abonnements associés (ou marquage comme supprimés)
+    $stmt = $pdo->prepare("
+        UPDATE subscriptions 
+        SET status = 'canceled'
+        WHERE user_id = ?
+    ");
+    $stmt->execute([$_SESSION['user_id']]);
+    
+    // Anonymisation des paiements
+    $stmt = $pdo->prepare("
+        UPDATE payments 
+        SET user_id = NULL
+        WHERE user_id = ?
+    ");
+    $stmt->execute([$_SESSION['user_id']]);
+    
+    // Suppression du compte
+    $stmt = $pdo->prepare("DELETE FROM users WHERE id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    
+    $pdo->commit();
+    
+    // Destruction de la session
+    session_destroy();
+    
+    // Redirection vers la page d'accueil
+    header("Location: index.php?msg=account_deleted");
+    exit;
+    
+} catch(Exception $e) {
+    $pdo->rollBack();
+    // Gestion des erreurs
+}
+\end{lstlisting}
+
+Cette fonctionnalité inclut plusieurs mesures de sécurité :
+\begin{itemize}
+    \item Vérification du token CSRF pour prévenir les attaques CSRF
+    \item Confirmation par mot de passe pour éviter les suppressions accidentelles
+    \item Transaction pour garantir l'intégrité des données lors de la suppression
+    \item Anonymisation des données de paiement pour respecter les réglementations sur la protection des données
+\end{itemize}
+
+L'application utilise une combinaison de suppressions physiques et logiques selon les besoins métier et les considérations légales. 
+
+\chapter{Code source commenté}
+
+Cette section présente une analyse détaillée des fichiers les plus importants du projet avec des explications sur leur fonctionnement.
+
+\section{Configuration de la base de données}
+Le fichier \textbf{includes/config.php} établit la connexion à la base de données et configure les paramètres essentiels de l'application :
+
+\begin{lstlisting}[style=phpStyle, caption=includes/config.php - Configuration de la base de données]
+<?php
+// Informations de connexion à la base de données
+$host = 'localhost';
+$dbname = 'fitness_club';
+$user = 'root';
+$pass = '';
+$charset = 'utf8mb4';
+
+// Configuration de l'objet PDO
+$dsn = "mysql:host=$host;dbname=$dbname;charset=$charset";
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION, // Lever une exception en cas d'erreur
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,       // Retourner un tableau associatif
+    PDO::ATTR_EMULATE_PREPARES   => false,                  // Utiliser de vraies requêtes préparées
+];
+
+try {
+    // Création de l'instance PDO
+    $pdo = new PDO($dsn, $user, $pass, $options);
+} catch (PDOException $e) {
+    // En production, ne pas afficher les détails de l'erreur
+    error_log("Erreur de connexion : " . $e->getMessage());
+    die("Erreur de connexion à la base de données.");
+}
+
+// Constantes globales de l'application
+define('SITE_NAME', 'Fitness Club');
+define('BASE_URL', 'http://localhost/fitness-club/');
+
+// Démarrage de la session si elle n'est pas déjà active
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Fonctions utilitaires
+function isLoggedIn() {
+    return isset($_SESSION['user_id']);
+}
+
+function redirectIfNotLoggedIn() {
+    if (!isLoggedIn()) {
+        header("Location: login.php");
+        exit;
+    }
+}
+
+function redirectIfLoggedIn() {
+    if (isLoggedIn()) {
+        header("Location: dashboard.php");
+        exit;
+    }
+}
+
+// Génération d'un token CSRF si nécessaire
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+?>
+\end{lstlisting}
+
+Points clés de ce fichier :
+\begin{itemize}
+    \item Configuration sécurisée de PDO avec gestion d'erreurs appropriée
+    \item Utilisation de constantes pour les paramètres globaux
+    \item Fonctions utilitaires pour vérifier la connexion de l'utilisateur
+    \item Génération automatique d'un token CSRF pour la sécurité des formulaires
+\end{itemize}
+
+\section{Processus d'authentification}
+
+\subsection{Traitement de la connexion}
+Le fichier \textbf{login\_process.php} gère la vérification des identifiants et la création de la session :
+
+\begin{lstlisting}[style=phpStyle, caption=login\_process.php - Traitement de la connexion]
+<?php
+require_once 'includes/config.php';
+
+// Redirection si déjà connecté
+redirectIfLoggedIn();
+
+// Vérification de la méthode HTTP
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header("Location: login.php");
+    exit;
+}
+
+// Vérification du token CSRF
+if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+    die("Token CSRF invalide");
+}
+
+// Récupération des données du formulaire
+$username = $_POST['username'];
+$password = $_POST['password'];
+
+// Validation basique
+if (empty($username) || empty($password)) {
+    header("Location: login.php?error=empty_fields");
+    exit;
+}
+
+try {
+    // Recherche de l'utilisateur par nom d'utilisateur
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
+    $stmt->execute([$username]);
+    $user = $stmt->fetch();
+    
+    // Vérification de l'existence de l'utilisateur et du mot de passe
+    if ($user && password_verify($password, $user['password'])) {
+        // Création de la session
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['username'];
+        
+        // Mise à jour de la date de dernière connexion
+        $stmt = $pdo->prepare("UPDATE users SET last_login = NOW() WHERE id = ?");
+        $stmt->execute([$user['id']]);
+        
+        // Vérification et mise à jour des abonnements expirés
+        if ($user['subscription_status'] === 'active' && 
+            $user['subscription_end_date'] < date('Y-m-d H:i:s')) {
+            
+            $stmt = $pdo->prepare("
+                UPDATE users 
+                SET subscription_status = 'expired'
+                WHERE id = ?
+            ");
+            $stmt->execute([$user['id']]);
+            
+            // Mise à jour de la variable de session
+            $user['subscription_status'] = 'expired';
+        }
+        
+        // Redirection vers le tableau de bord
+        header("Location: dashboard.php");
+        exit;
+    } else {
+        // Identifiants invalides
+        header("Location: login.php?error=invalid_credentials");
+        exit;
+    }
+} catch (PDOException $e) {
+    error_log("Erreur de connexion : " . $e->getMessage());
+    header("Location: login.php?error=system_error");
+    exit;
+}
+?>
+\end{lstlisting}
+
+Points clés de ce fichier :
+\begin{itemize}
+    \item Vérification du token CSRF pour prévenir les attaques par falsification de requête
+    \item Utilisation de \texttt{password\_verify()} pour une vérification sécurisée du mot de passe
+    \item Gestion des sessions et mise à jour des informations utilisateur
+    \item Vérification automatique de l'expiration des abonnements
+\end{itemize}
+
+\section{Traitement des paiements}
+Le fichier \textbf{payment.php} gère l'affichage et le traitement des paiements pour les abonnements :
+
+\begin{lstlisting}[style=phpStyle, caption=Extrait de payment.php - Traitement des paiements]
+<?php
+require_once 'includes/config.php';
+redirectIfNotLoggedIn();
+
+// Vérification de l'ID du plan
+if (!isset($_GET['plan']) || !is_numeric($_GET['plan'])) {
+    header("Location: plans.php");
+    exit;
+}
+
+$planId = $_GET['plan'];
+
+// Récupération des informations du plan
+$stmt = $pdo->prepare("SELECT * FROM plans WHERE id = ?");
+$stmt->execute([$planId]);
+$plan = $stmt->fetch();
+
+if (!$plan) {
+    header("Location: plans.php?error=invalid_plan");
+    exit;
+}
+
+// Traitement du formulaire de paiement
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Vérification du token CSRF
+    if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+        die("Token CSRF invalide");
+    }
+    
+    // Dans un système réel, ici se trouverait l'intégration avec un service de paiement
+    // comme Stripe, PayPal, etc.
+    
+    try {
+        $pdo->beginTransaction();
+        
+        // Création ou mise à jour de l'abonnement
+        $startDate = date('Y-m-d H:i:s');
+        $endDate = date('Y-m-d H:i:s', strtotime("+{$plan['duration_days']} days"));
+        
+        // Vérification si l'utilisateur a déjà un abonnement actif
+        $stmt = $pdo->prepare("
+            SELECT id FROM subscriptions 
+            WHERE user_id = ? AND status = 'active'
+        ");
+        $stmt->execute([$_SESSION['user_id']]);
+        $existingSubscription = $stmt->fetch();
+        
+        if ($existingSubscription) {
+            // Mise à jour de l'abonnement existant
+            $stmt = $pdo->prepare("
+                UPDATE subscriptions 
+                SET plan_id = ?,
+                    end_date = DATE_ADD(end_date, INTERVAL ? DAY),
+                    updated_at = NOW()
+                WHERE id = ?
+            ");
+            $stmt->execute([
+                $planId,
+                $plan['duration_days'],
+                $existingSubscription['id']
+            ]);
+            
+            $subscriptionId = $existingSubscription['id'];
+        } else {
+            // Création d'un nouvel abonnement
+            $stmt = $pdo->prepare("
+                INSERT INTO subscriptions 
+                (user_id, plan_id, start_date, end_date, status, created_at)
+                VALUES (?, ?, ?, ?, 'active', NOW())
+            ");
+            $stmt->execute([
+                $_SESSION['user_id'],
+                $planId,
+                $startDate,
+                $endDate
+            ]);
+            
+            $subscriptionId = $pdo->lastInsertId();
+        }
+        
+        // Enregistrement du paiement
+        $stmt = $pdo->prepare("
+            INSERT INTO payments 
+            (user_id, plan_id, subscription_id, amount, payment_method, status, created_at)
+            VALUES (?, ?, ?, ?, ?, 'completed', NOW())
+        ");
+        $stmt->execute([
+            $_SESSION['user_id'],
+            $planId,
+            $subscriptionId,
+            $plan['price'],
+            $_POST['payment_method']
+        ]);
+        
+        // Mise à jour du statut de l'utilisateur
+        $stmt = $pdo->prepare("
+            UPDATE users 
+            SET subscription_status = 'active',
+                subscription_end_date = ?,
+                plan_id = ?,
+                updated_at = NOW()
+            WHERE id = ?
+        ");
+        $stmt->execute([
+            $endDate,
+            $planId,
+            $_SESSION['user_id']
+        ]);
+        
+        $pdo->commit();
+        
+        // Redirection vers la page de confirmation
+        header("Location: payment_success.php?subscription_id=" . $subscriptionId);
+        exit;
+        
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        error_log("Erreur de paiement : " . $e->getMessage());
+        header("Location: payment.php?plan=" . $planId . "&error=payment_failed");
+        exit;
+    }
+}
+
+// Affichage du formulaire de paiement
+include 'includes/header.php';
+?>
+
+<div class="container payment-container">
+    <h1>Finaliser votre abonnement</h1>
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="plan-summary">
+                <h3>Récapitulatif de votre commande</h3>
+                <div class="plan-details">
+                    <p><strong>Plan:</strong> <?php echo htmlspecialchars($plan['name']); ?></p>
+                    <p><strong>Description:</strong> <?php echo htmlspecialchars($plan['description']); ?></p>
+                    <p><strong>Durée:</strong> <?php echo $plan['duration_days']; ?> jours</p>
+                    <p><strong>Prix:</strong> <?php echo number_format($plan['price'], 2); ?> €</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="payment-form">
+                <h3>Informations de paiement</h3>
+                <form method="post" action="payment.php?plan=<?php echo $planId; ?>" id="payment-form">
+                    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                    
+                    <div class="form-group">
+                        <label for="payment_method">Méthode de paiement</label>
+                        <select name="payment_method" id="payment_method" class="form-control" required>
+                            <option value="card">Carte bancaire</option>
+                            <option value="virement">Virement bancaire</option>
+                            <option value="cash">Paiement en espèces</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Champs pour carte bancaire (seraient traités par une passerelle de paiement réelle) -->
+                    <div id="card-fields">
+                        <div class="form-group">
+                            <label for="card_number">Numéro de carte</label>
+                            <input type="text" id="card_number" class="form-control" placeholder="1234 5678 9012 3456">
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="expiry">Date d'expiration</label>
+                                    <input type="text" id="expiry" class="form-control" placeholder="MM/AA">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="cvv">Code de sécurité</label>
+                                    <input type="text" id="cvv" class="form-control" placeholder="123">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block">Payer maintenant</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Script pour afficher/masquer les champs selon la méthode de paiement
+document.getElementById('payment_method').addEventListener('change', function() {
+    const cardFields = document.getElementById('card-fields');
+    if (this.value === 'card') {
+        cardFields.style.display = 'block';
+    } else {
+        cardFields.style.display = 'none';
+    }
+});
+</script>
+
+<?php include 'includes/footer.php'; ?>
+\end{lstlisting}
+
+Points clés de ce fichier :
+\begin{itemize}
+    \item Gestion complète du processus de paiement avec vérification des données
+    \item Utilisation de transactions pour garantir l'intégrité des données
+    \item Interface utilisateur dynamique adaptée à la méthode de paiement
+    \item Structure pour l'intégration future avec des passerelles de paiement réelles
+\end{itemize}
+
+\chapter{Base de données}
+
+\section{Schéma de la base de données}
+
+La base de données du projet est structurée autour de quatre tables principales qui forment le cœur du système :
+
+\begin{tikzpicture}[node distance=2.5cm]
+% Tables
+\node (users) [rectangle, draw, minimum width=4cm, minimum height=2cm] {
+    \textbf{users}
+};
+
+\node (plans) [rectangle, draw, minimum width=4cm, minimum height=2cm, right=of users] {
+    \textbf{plans}
+};
+
+\node (subscriptions) [rectangle, draw, minimum width=4cm, minimum height=2cm, below=of users] {
+    \textbf{subscriptions}
+};
+
+\node (payments) [rectangle, draw, minimum width=4cm, minimum height=2cm, below=of plans] {
+    \textbf{payments}
+};
+
+% Relations
+\draw[->] (users) -- (plans) node[midway, above] {plan\_id};
+\draw[->] (subscriptions) -- (users) node[midway, left] {user\_id};
+\draw[->] (subscriptions) -- (plans) node[midway, right] {plan\_id};
+\draw[->] (payments) -- (users) node[near start, left] {user\_id};
+\draw[->] (payments) -- (plans) node[near start, right] {plan\_id};
+\draw[->] (payments) -- (subscriptions) node[midway, above] {subscription\_id};
+\end{tikzpicture}
+
+\section{Description des tables}
+
+\subsection{Table des utilisateurs (\texttt{users})}
+
+Cette table stocke les informations des utilisateurs inscrits.
+
+\begin{lstlisting}[style=sqlStyle, caption=Structure de la table users]
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    phone VARCHAR(20),
+    subscription_status ENUM('inactive', 'active', 'expired') DEFAULT 'inactive',
+    subscription_end_date DATETIME,
+    plan_id INT DEFAULT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    last_login DATETIME,
+    FOREIGN KEY (plan_id) REFERENCES plans(id)
+);
+\end{lstlisting}
+
+Champs principaux :
+\begin{itemize}
+    \item \textbf{id} : Identifiant unique (clé primaire)
+    \item \textbf{username} : Nom d'utilisateur (unique)
+    \item \textbf{password} : Mot de passe haché
+    \item \textbf{email} : Adresse email (unique)
+    \item \textbf{subscription\_status} : État de l'abonnement de l'utilisateur
+    \item \textbf{plan\_id} : Référence au plan d'abonnement actif (clé étrangère)
+\end{itemize}
+
+\subsection{Table des plans (\texttt{plans})}
+
+Cette table définit les différents plans d'abonnement disponibles.
+
+\begin{lstlisting}[style=sqlStyle, caption=Structure de la table plans]
+CREATE TABLE IF NOT EXISTS plans (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    duration_days INT NOT NULL,
+    description TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+\end{lstlisting}
+
+Champs principaux :
+\begin{itemize}
+    \item \textbf{id} : Identifiant unique (clé primaire)
+    \item \textbf{name} : Nom du plan (unique)
+    \item \textbf{price} : Prix du plan
+    \item \textbf{duration\_days} : Durée de validité en jours
+    \item \textbf{description} : Description détaillée du plan
+\end{itemize}
+
+\subsection{Table des abonnements (\texttt{subscriptions})}
+
+Cette table trace les abonnements des utilisateurs aux différents plans.
+
+\begin{lstlisting}[style=sqlStyle, caption=Structure de la table subscriptions]
+CREATE TABLE IF NOT EXISTS subscriptions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    plan_id INT NOT NULL,
+    start_date DATETIME NOT NULL,
+    end_date DATETIME NOT NULL,
+    status ENUM('active', 'expired', 'canceled') DEFAULT 'active',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (plan_id) REFERENCES plans(id)
+);
+\end{lstlisting}
+
+Champs principaux :
+\begin{itemize}
+    \item \textbf{id} : Identifiant unique (clé primaire)
+    \item \textbf{user\_id} : Référence à l'utilisateur (clé étrangère)
+    \item \textbf{plan\_id} : Référence au plan souscrit (clé étrangère)
+    \item \textbf{start\_date} : Date de début de l'abonnement
+    \item \textbf{end\_date} : Date de fin de l'abonnement
+    \item \textbf{status} : État de l'abonnement
+\end{itemize}
+
+\subsection{Table des paiements (\texttt{payments})}
+
+Cette table enregistre tous les paiements effectués par les utilisateurs.
+
+\begin{lstlisting}[style=sqlStyle, caption=Structure de la table payments]
+CREATE TABLE IF NOT EXISTS payments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    plan_id INT NOT NULL,
+    subscription_id INT NOT NULL,
+    amount DECIMAL(10,2) NOT NULL,
+    payment_method ENUM('card', 'virement', 'cash') NOT NULL,
+    status ENUM('pending', 'completed', 'failed') DEFAULT 'pending',
+    transaction_id VARCHAR(100),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (plan_id) REFERENCES plans(id),
+    FOREIGN KEY (subscription_id) REFERENCES subscriptions(id)
+);
+\end{lstlisting}
+
+Champs principaux :
+\begin{itemize}
+    \item \textbf{id} : Identifiant unique (clé primaire)
+    \item \textbf{user\_id} : Référence à l'utilisateur (clé étrangère)
+    \item \textbf{plan\_id} : Référence au plan payé (clé étrangère)
+    \item \textbf{subscription\_id} : Référence à l'abonnement concerné (clé étrangère)
+    \item \textbf{amount} : Montant du paiement
+    \item \textbf{payment\_method} : Méthode de paiement utilisée
+    \item \textbf{status} : État du paiement
+\end{itemize}
+
+\section{Données initiales}
+
+Le script \textbf{database.sql} inclut également des données initiales pour les plans d'abonnement :
+
+\begin{lstlisting}[style=sqlStyle, caption=Données initiales pour les plans]
+-- Données initiales pour les plans
+INSERT IGNORE INTO plans (name, price, duration_days, description) VALUES
+('normal', 90.00, 30, 'Accès standard à la salle'),
+('premium', 150.00, 30, 'Accès premium + cours collectifs'),
+('vip', 250.00, 30, 'Accès VIP + coach personnel');
+\end{lstlisting}
+
+\section{Index et optimisations}
+
+Pour améliorer les performances, des index ont été ajoutés sur les colonnes fréquemment utilisées dans les requêtes :
+
+\begin{lstlisting}[style=sqlStyle, caption=Index pour l'optimisation des performances]
+-- Index pour améliorer les performances
+CREATE INDEX idx_user_subscription ON users(subscription_status, subscription_end_date);
+CREATE INDEX idx_payments_user ON payments(user_id, status);
+CREATE INDEX idx_subscription_user ON subscriptions(user_id, status);
+\end{lstlisting}
+
+Ces index permettent d'accélérer les requêtes fréquentes comme :
+\begin{itemize}
+    \item La recherche des abonnements actifs d'un utilisateur
+    \item La vérification des abonnements expirés
+    \item L'historique des paiements d'un utilisateur
+\end{itemize}
+
+\chapter{Conclusion}
+
+\section{Bilan du projet}
+
+Le projet Fitness Club constitue une application web complète permettant la gestion d'un club de fitness avec un accent particulier sur les abonnements et les paiements. Les objectifs initiaux ont été atteints, notamment :
+
+\begin{itemize}
+    \item Mise en place d'un système d'authentification robuste et sécurisé
+    \item Implémentation des quatre opérations CRUD pour toutes les entités principales
+    \item Gestion complète du cycle de vie des abonnements
+    \item Interface utilisateur intuitive et responsive
+    \item Sécurité des données et protection contre les attaques courantes
+\end{itemize}
+
+L'architecture modulaire adoptée permet une maintenance facilitée et une évolution progressive du système. L'utilisation de PDO avec des requêtes préparées assure une protection efficace contre les injections SQL, tandis que le hachage des mots de passe avec Bcrypt offre un niveau de sécurité élevé pour les données sensibles.
+
+La base de données relationnelle a été conçue pour garantir l'intégrité des données tout en optimisant les performances grâce à une indexation stratégique des colonnes clés.
+
+\section{Points forts du projet}
+
+\begin{itemize}
+    \item \textbf{Sécurité renforcée} : Le projet intègre plusieurs couches de sécurité, notamment :
+    \begin{itemize}
+        \item Protection contre les injections SQL via PDO
+        \item Hachage sécurisé des mots de passe avec Bcrypt
+        \item Protection CSRF pour tous les formulaires
+        \item Validation côté serveur des entrées utilisateur
+    \end{itemize}
+    
+    \item \textbf{Gestion des transactions} : L'utilisation de transactions SQL garantit l'intégrité des données lors d'opérations complexes impliquant plusieurs tables.
+    
+    \item \textbf{Code modulaire} : La séparation des préoccupations avec des fichiers dédiés à chaque fonctionnalité facilite la maintenance et l'évolution du code.
+    
+    \item \textbf{Interface utilisateur intuitive} : L'utilisation de Bootstrap et de JavaScript permet d'offrir une expérience utilisateur fluide et adaptée à tous les appareils.
+\end{itemize}
+
+\section{Axes d'amélioration}
+
+Bien que fonctionnelle, l'application pourrait être améliorée sur plusieurs aspects :
+
+\begin{itemize}
+    \item \textbf{Architecture MVC} : Refactoriser le code pour adopter une architecture Model-View-Controller plus stricte, facilitant davantage la maintenance et les tests.
+    
+    \item \textbf{API RESTful} : Développer une API pour permettre l'intégration avec d'autres systèmes ou le développement d'applications mobiles.
+    
+    \item \textbf{Tests automatisés} : Mettre en place des tests unitaires et fonctionnels pour garantir la stabilité du système lors des évolutions futures.
+    
+    \item \textbf{Intégration réelle de paiement} : Remplacer la simulation actuelle par une intégration avec une passerelle de paiement réelle comme Stripe ou PayPal.
+    
+    \item \textbf{Gestion des rôles} : Ajouter un système de gestion des rôles et des permissions pour distinguer les utilisateurs standards des administrateurs.
+    
+    \item \textbf{Internationalisation} : Préparer l'application pour la prise en charge de plusieurs langues.
+\end{itemize}
+
+\section{Perspectives d'évolution}
+
+Le projet pourrait être étendu avec de nouvelles fonctionnalités pour enrichir l'expérience utilisateur :
+
+\begin{itemize}
+    \item \textbf{Réservation de cours} : Permettre aux membres de réserver leur place dans des cours collectifs.
+    
+    \item \textbf{Suivi de progression} : Intégrer des outils de suivi de progression pour que les membres puissent enregistrer leurs entraînements et suivre leur évolution.
+    
+    \item \textbf{Notifications} : Mettre en place un système de notifications (email, SMS) pour informer les utilisateurs des événements importants comme l'expiration prochaine de leur abonnement.
+    
+    \item \textbf{Système de fidélité} : Introduire un programme de fidélité avec des points et des récompenses pour encourager l'engagement des membres.
+    
+    \item \textbf{Intégration avec des appareils connectés} : Permettre la synchronisation avec des montres connectées ou applications de fitness.
+    
+    \item \textbf{Tableau de bord analytique} : Développer un tableau de bord pour les administrateurs avec des statistiques avancées sur l'utilisation du service.
+\end{itemize}
+
+Cette application constitue une base solide sur laquelle peuvent être construites de nombreuses évolutions pour répondre aux besoins croissants d'un club de fitness moderne.
+
+\chapter{Annexes}
+
+\section{Ressources et documentation}
+
+\subsection{Bibliothèques et frameworks utilisés}
+\begin{itemize}
+    \item \textbf{Bootstrap 5} : Framework CSS pour le design responsive\\
+    \url{https://getbootstrap.com/}
+    
+    \item \textbf{Font Awesome} : Bibliothèque d'icônes\\
+    \url{https://fontawesome.com/}
+    
+    \item \textbf{jQuery} : Bibliothèque JavaScript pour simplifier la manipulation du DOM\\
+    \url{https://jquery.com/}
+\end{itemize}
+
+\subsection{Documentation de référence}
+\begin{itemize}
+    \item \textbf{PHP Documentation} : Documentation officielle de PHP\\
+    \url{https://www.php.net/docs.php}
+    
+    \item \textbf{MySQL Documentation} : Documentation officielle de MySQL\\
+    \url{https://dev.mysql.com/doc/}
+    
+    \item \textbf{PDO Documentation} : Guide sur PHP Data Objects\\
+    \url{https://www.php.net/manual/fr/book.pdo.php}
+\end{itemize}
+
+\subsection{Sécurité}
+\begin{itemize}
+    \item \textbf{OWASP} : Guide des meilleures pratiques de sécurité web\\
+    \url{https://owasp.org/}
+    
+    \item \textbf{PHP Password Hashing} : Guide sur le hachage des mots de passe en PHP\\
+    \url{https://www.php.net/manual/fr/function.password-hash.php}
+\end{itemize}
+
+\section{Glossaire}
+
+\begin{description}
+    \item[CRUD] Create, Read, Update, Delete - Les quatre opérations fondamentales pour la persistance des données.
+    
+    \item[PDO] PHP Data Objects - Extension PHP fournissant une interface d'accès aux bases de données.
+    
+    \item[Bcrypt] Algorithme de hachage de mots de passe basé sur le chiffrement Blowfish, conçu pour être lent et résistant aux attaques par force brute.
+    
+    \item[CSRF] Cross-Site Request Forgery - Type d'attaque où un site malveillant peut forcer un utilisateur authentifié à exécuter des actions non désirées sur une autre application.
+    
+    \item[XSS] Cross-Site Scripting - Faille de sécurité permettant l'injection de code malveillant côté client.
+    
+    \item[Transaction SQL] Ensemble de requêtes SQL traitées comme une seule unité atomique, garantissant l'intégrité des données.
+    
+    \item[MVC] Model-View-Controller - Modèle d'architecture logicielle séparant la logique métier, l'interface utilisateur et le contrôle du flux de l'application.
+\end{description}
+
+\end{document} 
