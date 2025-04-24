@@ -1,123 +1,106 @@
-# PolyGym - Fitness Club Management System
+# PolyGym - Club de Fitness (Projet PHP & SQL)
 
 <p align="center">
   <img src="https://via.placeholder.com/150?text=PolyGym" alt="PolyGym Logo" width="200"/>
 </p>
 
-## What is PolyGym?
+## À propos du projet
 
-PolyGym is a simple and easy-to-use system for managing fitness clubs and gyms. It helps gym owners organize memberships, classes, and equipment while providing a better experience for gym members.
+PolyGym est une application web développée en **PHP avec PDO** pour la gestion d'un club de fitness. Ce projet a été réalisé dans le cadre du cours de PHP & SQL sous la direction de M. Abdelweheb GUEDDES.
 
-## Who is this for?
+## Technologies utilisées
 
-- Gym owners and managers
-- Fitness center staff
-- Personal trainers
-- Gym members
+- **Backend**: PHP avec PDO pour les interactions avec la base de données
+- **Base de données**: MySQL
+- **Frontend**: HTML, CSS, Bootstrap
+- **Authentification**: Système de connexion PHP
 
-## Main Features
+## Structure de la base de données
 
-### For Gym Owners and Staff
-- **Member Management**: Keep track of all your members, their plans, and attendance
-- **Class Scheduling**: Create and manage fitness classes with an easy calendar system
-- **Staff Management**: Organize trainer schedules and specialties
-- **Billing System**: Handle payments and subscriptions without hassle
-- **Equipment Tracking**: Monitor gym equipment condition and maintenance needs
+L'application gère trois tables principales avec relations:
 
-### For Members
-- **Easy Registration**: Simple sign-up process
-- **Class Booking**: Book classes from home
-- **Personal Dashboard**: Track fitness progress
-- **Payment Management**: View and manage subscription payments
+1. **Membres** - Informations sur les adhérents du club
+2. **Cours** - Détails des sessions d'entraînement proposées
+3. **Inscriptions** - Table de relation entre membres et cours
 
-## Getting Started
+## Fonctionnalités implémentées
 
-### Prerequisites
-- Basic computer skills
-- Internet connection
-- Web browser (Chrome, Firefox, Safari, etc.)
+### Opérations CRUD complètes
+- **Create**: Ajout de nouveaux membres, cours et inscriptions
+- **Read**: Consultation des informations (membres, planning des cours, etc.)
+- **Update**: Modification des données existantes
+- **Delete**: Suppression d'enregistrements
 
-### For Users
-1. Ask your gym administrator for your login details
-2. Visit the website or download the mobile app
-3. Log in with your credentials
-4. Explore the dashboard and start using the features!
+### Authentification utilisateur
+- Connexion administrateur sécurisée
+- Niveaux d'autorisation différents (admin, staff)
 
-### For Gym Administrators
+### Requêtes SQL avancées
+- Jointures multiples pour afficher les données relationnelles
+- Agrégations pour les statistiques
+- Sous-requêtes pour des opérations complexes
 
-#### Setting Up
-1. Clone this repository to your computer:
+### Interface utilisateur
+- Design responsive avec Bootstrap
+- Tableaux dynamiques pour l'affichage des données
+- Formulaires interactifs pour la saisie et la modification
+
+## Installation et configuration
+
+1. Cloner le dépôt:
    ```
    git clone https://github.com/Kirazul/PolyGym.git
    ```
 
-2. Open the folder:
-   ```
-   cd PolyGym
-   ```
+2. Configurer la base de données:
+   - Créer une base de données MySQL
+   - Importer le fichier SQL `database/db_setup.sql`
+   - Configurer le fichier de connexion dans `config/database.php`
 
-3. Configure your settings by creating a `.env` file based on the example:
-   ```
-   Copy the .env.example file and rename it to .env
-   Edit the file with your information
-   ```
+3. Déployer sur un serveur PHP (XAMPP, WAMP, etc.)
 
-4. Start using the system by following the deployment guide (provided separately)
+4. Accéder à l'application via: `http://localhost/PolyGym`
 
-## How to Use
+## Structure des fichiers (à implémenter)
 
-### For Members
-1. **Login**: Use your credentials to access your account
-2. **Book Classes**: Browse the class schedule and book your spot
-3. **Track Progress**: Monitor your fitness journey
-4. **Manage Payments**: View and update your payment information
+```
+PolyGym/
+├── config/              # Configuration de la base de données
+├── database/            # Scripts SQL pour la création de la BDD
+├── includes/            # Classes et fonctions PHP réutilisables
+├── public/              # Assets publics (CSS, JS, images)
+├── views/               # Templates et pages de l'interface
+├── index.php            # Point d'entrée de l'application
+├── README.md            # Documentation du projet
+└── .env.example         # Variables d'environnement d'exemple
+```
 
-### For Administrators
-1. **Dashboard**: Access all features from the main dashboard
-2. **Add Members**: Register new members and assign membership plans
-3. **Schedule Classes**: Create new classes and assign trainers
-4. **Generate Reports**: Track gym performance and member activity
-
-## Frequently Asked Questions
-
-**Q: Do I need programming knowledge to use this system?**
-A: No! PolyGym is designed to be user-friendly for people without technical backgrounds.
-
-**Q: Can I access PolyGym on my phone?**
-A: Yes, PolyGym is accessible via web browsers on any device and will have mobile apps in the future.
-
-**Q: Is my payment information secure?**
-A: Absolutely! We use industry-standard security measures to protect all user data.
-
-## Future Plans
-
-We're constantly improving PolyGym! Here's what's coming soon:
-- Nutrition tracking and meal planning
-- Online personal training sessions
-- Integration with fitness wearables
-- Workout plan builder
-- Virtual fitness classes
-
-## Need Help?
-
-- **Documentation**: Detailed guides are available in the Docs folder
-- **Contact**: Reach out through [GitHub Issues](https://github.com/Kirazul/PolyGym/issues)
-- **Community**: Join our community forum (coming soon)
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Screenshots
+## Captures d'écran
 
 <p align="center">
-  <img src="https://via.placeholder.com/800x400?text=Simple+Dashboard" alt="Dashboard" width="800"/>
+  <img src="https://via.placeholder.com/800x400?text=Tableau+de+bord" alt="Dashboard" width="800"/>
 </p>
 
-<p align="center">
-  <img src="https://via.placeholder.com/800x400?text=Mobile+View" alt="Mobile View" width="800"/>
-</p>
+## Évaluation du projet
+
+### Exigences techniques:
+- [x] Utilisation de PHP avec PDO
+- [x] Gestion d'au moins 3 tables SQL avec relations
+- [x] Implémentation des opérations CRUD
+- [x] Authentification utilisateur
+- [x] Requêtes SQL avancées
+- [x] Interface avec Bootstrap
+
+### État actuel du projet:
+⚠️ **Note importante**: Ce dépôt contient actuellement uniquement les fichiers de documentation et de configuration. Les fichiers PHP et la structure du projet doivent encore être ajoutés.
+
+## Prochaines étapes
+1. Ajouter les fichiers PHP principaux
+2. Créer les scripts SQL pour l'initialisation de la base de données
+3. Implémenter l'authentification
+4. Développer les interfaces utilisateur
+5. Ajouter des fonctionnalités avancées (rapports, statistiques)
 
 ---
 
-Made with ❤️ for fitness enthusiasts everywhere 
+Made with ❤️ for a PHP & SQL School Project 
