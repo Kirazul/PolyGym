@@ -66,6 +66,8 @@ L'application gère trois tables principales avec relations:
 ```
 PolyGym/
 ├── assets/              # Images et ressources
+│   ├── logo.png         # Logo du projet
+│   └── screen.png       # Capture d'écran de l'application
 ├── css/                 # Feuilles de style CSS
 ├── includes/            # Fonctions PHP réutilisables
 │   ├── auth.php         # Gestion de l'authentification
@@ -99,4 +101,4 @@ PolyGym/
 
 ---
 
-Made with ❤️ for a PHP & SQL School Project 
+Made with ❤️ for a PHP & SQL School Project - 2024 
