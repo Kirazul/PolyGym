@@ -1,7 +1,7 @@
 # PolyGym - Club de Fitness (Projet PHP & SQL)
 
 <p align="center">
-  <img src="https://via.placeholder.com/150?text=PolyGym" alt="PolyGym Logo" width="200"/>
+  <img src="assets/logo.png" alt="PolyGym Logo" width="200"/>
 </p>
 
 ## À propos du projet
@@ -84,7 +84,7 @@ PolyGym/
 ## Captures d'écran
 
 <p align="center">
-  <img src="https://via.placeholder.com/800x400?text=Tableau+de+bord" alt="Dashboard" width="800"/>
+  <img src="assets/screen.png" alt="PolyGym Dashboard" width="800"/>
 </p>
 
 ## Évaluation du projet
